@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Multimodal Scene Designer - PoC</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background: #1e1e1e;
+      color: #e0e0e0;
+    }
+
+    #left {
+      width: 20%;
+      min-width: 200px;
+      border-right: 1px solid #444;
+      overflow: auto;
+      padding: 16px;
+      background: #252526;
+    }
+
+    #center {
+      flex: 1;
+      border-right: 1px solid #444;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: #2d2d30;
+    }
+
+    #right {
+      width: 30%;
+      min-width: 300px;
+      overflow: auto;
+      padding: 16px;
+      background: #252526;
+    }
+
+    h3 {
+      color: #4fc3f7;
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    h4 {
+      color: #81c784;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    #sceneInfo {
+      padding: 12px;
+      background: #1e1e1e;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      border: 1px solid #3e3e42;
+    }
+
+    #narrativeInfo {
+      padding: 8px;
+      background: #1e1e1e;
+      border-radius: 4px;
+      margin-top: 8px;
+      font-size: 11px;
+      border: 1px solid #3e3e42;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    #focusNodeInfo {
+      padding: 8px;
+      background: #1e1e1e;
+      border-radius: 4px;
+      margin-top: 8px;
+      font-size: 11px;
+      border: 1px solid #3e3e42;
+      color: #ffaa00;
+    }
+
+    #geomCanvas {
+      background: #1a1a1a;
+      cursor: crosshair;
+      border: 2px solid #3e3e42;
+      margin: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      background: #0e639c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #1177bb;
+    }
+
+    button:active {
+      background: #0d5a8f;
+    }
+
+    button.secondary {
+      background: #424242;
+    }
+
+    button.secondary:hover {
+      background: #616161;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 8px;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border: 1px solid #3e3e42;
+      border-radius: 4px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 12px;
+      resize: vertical;
+    }
+
+    pre {
+      background: #1e1e1e;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      overflow-x: auto;
+      border: 1px solid #3e3e42;
+      color: #d4d4d4;
+      line-height: 1.4;
+    }
+
+    .camera-controls {
+      padding: 12px;
+      background: #1e1e1e;
+      border-radius: 4px;
+      margin-top: 16px;
+      border: 1px solid #3e3e42;
+    }
+
+    .camera-btn {
+      width: 48%;
+      display: inline-block;
+      margin: 4px 1%;
+    }
+
+    .info-text {
+      font-size: 12px;
+      color: #999;
+      line-height: 1.5;
+    }
+
+    .canvas-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .small {
+      font-size: 11px;
+      color: #888;
+    }
+
+    .node-item {
+      padding: 6px;
+      margin: 4px 0;
+      background: #2d2d30;
+      border-radius: 3px;
+      border-left: 3px solid #666;
+    }
+
+    .node-item.focused {
+      border-left-color: #ffaa00;
+      background: #3e3e42;
+    }
+  </style>
+</head>
+<body>
+  <div id="left">
+    <h3>Scene</h3>
+    <div id="sceneInfo">
+      <strong id="sceneName">Loading...</strong>
+    </div>
+
+    <h4>Narrative</h4>
+    <div id="narrativeInfo"></div>
+
+    <h4>Focus Node</h4>
+    <div id="focusNodeInfo"></div>
+    <button id="btnUsePreset" class="secondary">Apply Narrative Preset</button>
+
+    <div class="camera-controls">
+      <h4 style="margin-top: 0;">Camera Preset</h4>
+      <button class="camera-btn" onclick="setCameraPreset('overhead')">Overhead</button>
+      <button class="camera-btn" onclick="setCameraPreset('eyelevel')">Eye Level</button>
+    </div>
+
+    <div style="margin-top: 16px;">
+      <h4>Characters</h4>
+      <div id="characterList" class="info-text"></div>
+    </div>
+  </div>
+
+  <div id="center">
+    <div style="padding: 8px; background: #1e1e1e; border-bottom: 1px solid #444;">
+      <strong style="font-size: 14px;">Geometry Canvas</strong>
+      <span style="font-size: 11px; color: #888; margin-left: 12px;">Drag characters to reposition</span>
+    </div>
+    <div class="canvas-container">
+      <canvas id="geomCanvas" width="800" height="600"></canvas>
+    </div>
+  </div>
+
+  <div id="right">
+    <h3>Prompt</h3>
+    <button id="btnUpdatePrompt">🔄 Update Prompt</button>
+    
+    <h4>Generated Prompt</h4>
+    <textarea id="promptRaw" readonly></textarea>
+
+    <h4>Tags</h4>
+    <pre id="promptTags"></pre>
+
+    <h4>Debug Scene Geometry</h4>
+    <pre id="geomDebug" class="small"></pre>
+  </div>
+
+  <!-- Scripts -->
+  <script src="project-data.js"></script>
+  <script src="geometry-adapter.js"></script>
+  <script src="prompt-core.js"></script>
+  <script src="narrative-geometry.js"></script>
+  <script src="geometry-board.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
