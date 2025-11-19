@@ -40,6 +40,7 @@ window.defaultProject = {
     {
       "id": "scene-1",
       "name": "Rooftop showdown",
+      "description": "Hero and masked foe face off on a rain-soaked rooftop skyline.",
       "focusNodeId": "ev-2",
       "narrativeGraph": {
         "nodes": [
@@ -104,6 +105,160 @@ window.defaultProject = {
       },
       "prompt": {
         "id": "prompt-1",
+        "language": "en",
+        "mainSubject": "",
+        "styleTags": [],
+        "compositionTags": [],
+        "environmentTags": [],
+        "actionTags": [],
+        "cameraTags": [],
+        "extraNegativeTags": []
+      }
+    },
+    {
+      "id": "scene-2",
+      "name": "Alley pursuit",
+      "description": "High-speed chase through neon alleys toward a fire escape corner.",
+      "focusNodeId": "ev-5",
+      "narrativeGraph": {
+        "nodes": [
+          {
+            "id": "ev-4",
+            "type": "Event",
+            "label": "Hero spots the masked enemy escaping",
+            "compositionPreset": "rush_towards"
+          },
+          {
+            "id": "ev-5",
+            "type": "Event",
+            "label": "Dash through neon alleys",
+            "compositionPreset": "hero_walkaway"
+          },
+          {
+            "id": "ev-6",
+            "type": "Outcome",
+            "label": "Enemy cornered near fire escape",
+            "compositionPreset": "face_off"
+          }
+        ],
+        "edges": [
+          { "id": "e3", "from": "ev-4", "to": "ev-5", "relation": "time" },
+          { "id": "e4", "from": "ev-5", "to": "ev-6", "relation": "cause" }
+        ]
+      },
+      "geometry": {
+        "camera": {
+          "id": "cam-alley",
+          "projection": "perspective",
+          "eye": { "x": -2, "y": 2, "z": 4 },
+          "target": { "x": 1, "y": 1.2, "z": -1 },
+          "up": { "x": 0, "y": 1, "z": 0 },
+          "fovDeg": 60
+        },
+        "objects": [
+          {
+            "id": "obj-hero-run",
+            "type": "character",
+            "refId": "ch-hero",
+            "label": "Hero sprinting",
+            "position": { "x": -1.5, "y": 0, "z": 0.5 },
+            "rotation": { "x": 0, "y": 20, "z": 0 },
+            "scale": { "x": 1, "y": 1, "z": 1 },
+            "layer": 2,
+            "poseHint": { "facing": "camera", "action": "rush_forward" }
+          },
+          {
+            "id": "obj-enemy-run",
+            "type": "character",
+            "refId": "ch-enemy",
+            "label": "Enemy fleeing",
+            "position": { "x": 1.5, "y": 0, "z": -1.2 },
+            "rotation": { "x": 0, "y": -20, "z": 0 },
+            "scale": { "x": 1, "y": 1, "z": 1 },
+            "layer": 1,
+            "poseHint": { "facing": "away", "action": "escape" }
+          }
+        ],
+        "guides": [
+          {
+            "id": "guide-diagonal",
+            "type": "diagonal",
+            "p1": { "x": -3, "y": 0, "z": 2 },
+            "p2": { "x": 3, "y": 0, "z": -2 },
+            "meta": { "label": "alley perspective" }
+          }
+        ]
+      },
+      "prompt": {
+        "id": "prompt-2",
+        "language": "en",
+        "mainSubject": "",
+        "styleTags": [],
+        "compositionTags": [],
+        "environmentTags": [],
+        "actionTags": [],
+        "cameraTags": [],
+        "extraNegativeTags": []
+      }
+    },
+    {
+      "id": "scene-3",
+      "name": "Aftermath vigil",
+      "description": "Quiet sunrise moment as the hero keeps watch over the sleeping city.",
+      "focusNodeId": "ev-8",
+      "narrativeGraph": {
+        "nodes": [
+          {
+            "id": "ev-7",
+            "type": "Event",
+            "label": "Rain eases over the city",
+            "compositionPreset": "overhead_crowd"
+          },
+          {
+            "id": "ev-8",
+            "type": "Event",
+            "label": "Hero watches sunrise alone",
+            "compositionPreset": "hero_walkaway"
+          }
+        ],
+        "edges": [
+          { "id": "e5", "from": "ev-7", "to": "ev-8", "relation": "time" }
+        ]
+      },
+      "geometry": {
+        "camera": {
+          "id": "cam-aftermath",
+          "projection": "perspective",
+          "eye": { "x": 0, "y": 1.7, "z": -4 },
+          "target": { "x": 0, "y": 1.4, "z": 0 },
+          "up": { "x": 0, "y": 1, "z": 0 },
+          "fovDeg": 40
+        },
+        "objects": [
+          {
+            "id": "obj-hero-alone",
+            "type": "character",
+            "refId": "ch-hero",
+            "label": "Hero",
+            "position": { "x": 0, "y": 0, "z": 0.3 },
+            "rotation": { "x": 0, "y": 0, "z": 0 },
+            "scale": { "x": 1, "y": 1, "z": 1 },
+            "layer": 1,
+            "poseHint": { "facing": "horizon", "action": "contemplate" }
+          }
+        ],
+        "guides": [
+          {
+            "id": "guide-horizon",
+            "type": "horizon",
+            "p1": { "x": -3, "y": 0, "z": -2 },
+            "p2": { "x": 3, "y": 0, "z": -2 },
+            "meta": { "label": "distant skyline" }
+          }
+        ]
+      },
+      "prompt": {
+        "id": "prompt-3",
         "language": "en",
         "mainSubject": "",
         "styleTags": [],

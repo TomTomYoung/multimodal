@@ -67,6 +67,22 @@
       border: 1px solid #3e3e42;
     }
 
+    #sceneDescription {
+      margin-top: 6px;
+      color: #ccc;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .scene-meta {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px solid #333;
+      font-size: 11px;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
     #narrativeInfo {
       padding: 8px;
       background: #1e1e1e;
@@ -123,6 +139,27 @@
 
     button.secondary:hover {
       background: #616161;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px;
+      background: #1e1e1e;
+      color: #e0e0e0;
+      border: 1px solid #3e3e42;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .scene-selector {
+      margin-bottom: 16px;
+    }
+
+    .scene-selector label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12px;
+      color: #bbb;
     }
 
     textarea {
@@ -199,8 +236,14 @@
 <body>
   <div id="left">
     <h3>Scene</h3>
+    <div class="scene-selector">
+      <label for="sceneSelect">Select Scene</label>
+      <select id="sceneSelect"></select>
+    </div>
     <div id="sceneInfo">
       <strong id="sceneName">Loading...</strong>
+      <p id="sceneDescription" class="info-text"></p>
+      <div id="sceneMeta" class="scene-meta small"></div>
     </div>
 
     <h4>Narrative</h4>

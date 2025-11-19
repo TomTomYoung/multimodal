@@ -6,6 +6,7 @@ A web-based toolkit that connects **narrative structure**, **scene geometry**, a
 
 - 📖 **Narrative → Geometry**: Define story events and derive scene compositions automatically
 - 🎨 **Geometry Canvas**: Visually arrange characters and camera positions
+- 🎬 **Multi-scene Presets**: Swap between multiple demo scenes and keep the canvas, narrative, and prompt in sync
 - 🤖 **Auto Prompt Generation**: Generate detailed image prompts from scene geometry
 - 💾 **Single JSON Format**: Store everything (characters, world, scenes, geometry, prompts) in one file
 
@@ -19,6 +20,7 @@ A web-based toolkit that connects **narrative structure**, **scene geometry**, a
 
 2. **Explore the interface**
    - **Left Panel**: Scene information and camera presets
+   - Use the **Scene selector** to swap between rooftop duel, alley pursuit, and aftermath vigil demos
    - **Center Canvas**: Interactive geometry editor (drag characters to move them)
    - **Right Panel**: Generated prompt and tags
 
@@ -103,7 +105,7 @@ function makeCustomGeometry(scene, project) {
 
 ## Future Enhancements
 
-- [ ] Multiple scene support
+- [x] Multiple scene support
 - [ ] Narrative graph visual editor
 - [ ] More sophisticated camera projection
 - [ ] Export/import project files
