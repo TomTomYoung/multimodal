@@ -125,6 +125,27 @@
       background: #616161;
     }
 
+    select {
+      width: 100%;
+      padding: 8px;
+      background: #1e1e1e;
+      color: #e0e0e0;
+      border: 1px solid #3e3e42;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .scene-selector {
+      margin-bottom: 16px;
+    }
+
+    .scene-selector label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12px;
+      color: #bbb;
+    }
+
     textarea {
       width: 100%;
       min-height: 150px;
@@ -199,6 +220,10 @@
 <body>
   <div id="left">
     <h3>Scene</h3>
+    <div class="scene-selector">
+      <label for="sceneSelect">Select Scene</label>
+      <select id="sceneSelect"></select>
+    </div>
     <div id="sceneInfo">
       <strong id="sceneName">Loading...</strong>
     </div>
