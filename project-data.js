@@ -40,6 +40,7 @@ window.defaultProject = {
     {
       "id": "scene-1",
       "name": "Rooftop showdown",
+      "description": "Hero and masked foe face off on a rain-soaked rooftop skyline.",
       "focusNodeId": "ev-2",
       "narrativeGraph": {
         "nodes": [
@@ -117,6 +118,7 @@ window.defaultProject = {
     {
       "id": "scene-2",
       "name": "Alley pursuit",
+      "description": "High-speed chase through neon alleys toward a fire escape corner.",
       "focusNodeId": "ev-5",
       "narrativeGraph": {
         "nodes": [
@@ -202,6 +204,7 @@ window.defaultProject = {
     {
       "id": "scene-3",
       "name": "Aftermath vigil",
+      "description": "Quiet sunrise moment as the hero keeps watch over the sleeping city.",
       "focusNodeId": "ev-8",
       "narrativeGraph": {
         "nodes": [

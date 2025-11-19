@@ -94,7 +94,40 @@ function updatePromptUI(prompt) {
 
 function updateSceneInfo() {
   const sceneNameEl = document.getElementById('sceneName');
-  sceneNameEl.textContent = currentScene ? currentScene.name : '(no scene)';
+  const sceneDescEl = document.getElementById('sceneDescription');
+  const sceneMetaEl = document.getElementById('sceneMeta');
+
+  if (!currentScene) {
+    sceneNameEl.textContent = '(no scene)';
+    if (sceneDescEl) sceneDescEl.textContent = '';
+    if (sceneMetaEl) sceneMetaEl.innerHTML = '';
+    return;
+  }
+
+  sceneNameEl.textContent = currentScene.name;
+  if (sceneDescEl) {
+    sceneDescEl.textContent = currentScene.description || '';
+  }
+
+  if (sceneMetaEl) {
+    const focusNode = getFocusNode(currentScene);
+    const camera = currentScene.geometry ? currentScene.geometry.camera : null;
+    const focusPreset = focusNode && focusNode.compositionPreset && focusNode.compositionPreset !== 'none'
+      ? ` (${focusNode.compositionPreset})`
+      : '';
+
+    let metaHtml = '';
+    if (focusNode) {
+      metaHtml += `<div><strong>Focus</strong>: ${focusNode.label}${focusPreset}</div>`;
+    }
+
+    if (camera) {
+      metaHtml += `<div><strong>Camera</strong>: ${camera.projection || 'perspective'}, ${camera.fovDeg || 45}&deg; FOV</div>`;
+      metaHtml += `<div class="small">Eye [${formatVector(camera.eye)}] → Target [${formatVector(camera.target)}]</div>`;
+    }
+
+    sceneMetaEl.innerHTML = metaHtml;
+  }
 }
 
 function updateNarrativeInfo() {
@@ -123,7 +156,7 @@ function updateNarrativeInfo() {
   narrativeInfoEl.innerHTML = html;
   
   // Update focus node info
-  const focusNode = nodes.find(n => n.id === currentScene.focusNodeId);
+  const focusNode = getFocusNode(currentScene);
   if (focusNode) {
     focusNodeInfoEl.textContent = `${focusNode.id}: ${focusNode.label}`;
     if (focusNode.compositionPreset && focusNode.compositionPreset !== 'none') {
@@ -188,6 +221,21 @@ function setCameraPreset(preset) {
   setTimeout(() => {
     updatePrompt();
   }, 100);
+}
+
+function formatVector(vec) {
+  if (!vec) return '0.0, 0.0, 0.0';
+  const x = typeof vec.x === 'number' ? vec.x : 0;
+  const y = typeof vec.y === 'number' ? vec.y : 0;
+  const z = typeof vec.z === 'number' ? vec.z : 0;
+  return `${x.toFixed(1)}, ${y.toFixed(1)}, ${z.toFixed(1)}`;
+}
+
+function getFocusNode(scene) {
+  if (!scene || !scene.narrativeGraph || !Array.isArray(scene.narrativeGraph.nodes)) {
+    return null;
+  }
+  return scene.narrativeGraph.nodes.find(node => node.id === scene.focusNodeId) || null;
 }
 
 // Make functions available globally for onclick handlers
